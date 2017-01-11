@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4A77AD8F1E26813200B9ABF4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A77AD8E1E26813200B9ABF4 /* main.m */; };
+		4A77AD9D1E26893E00B9ABF4 /* HJM4AFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A77AD9C1E26893E00B9ABF4 /* HJM4AFile.m */; };
+		4A77ADA11E26BC7900B9ABF4 /* HJM4AFileMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A77ADA01E26BC7900B9ABF4 /* HJM4AFileMetadata.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +27,10 @@
 /* Begin PBXFileReference section */
 		4A77AD8B1E26813200B9ABF4 /* m4aclock */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = m4aclock; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A77AD8E1E26813200B9ABF4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4A77AD9B1E26893E00B9ABF4 /* HJM4AFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJM4AFile.h; sourceTree = "<group>"; };
+		4A77AD9C1E26893E00B9ABF4 /* HJM4AFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HJM4AFile.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4A77AD9F1E26BC7900B9ABF4 /* HJM4AFileMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJM4AFileMetadata.h; sourceTree = "<group>"; };
+		4A77ADA01E26BC7900B9ABF4 /* HJM4AFileMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HJM4AFileMetadata.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,8 +64,36 @@
 			isa = PBXGroup;
 			children = (
 				4A77AD8E1E26813200B9ABF4 /* main.m */,
+				4A77ADA21E26BC8300B9ABF4 /* m4a lib */,
 			);
 			path = m4aclock;
+			sourceTree = "<group>";
+		};
+		4A77ADA21E26BC8300B9ABF4 /* m4a lib */ = {
+			isa = PBXGroup;
+			children = (
+				4A77ADA31E26BC9000B9ABF4 /* HJM4AFile */,
+				4A77ADA41E26BCA200B9ABF4 /* HJM4AFileMetadata */,
+			);
+			name = "m4a lib";
+			sourceTree = "<group>";
+		};
+		4A77ADA31E26BC9000B9ABF4 /* HJM4AFile */ = {
+			isa = PBXGroup;
+			children = (
+				4A77AD9B1E26893E00B9ABF4 /* HJM4AFile.h */,
+				4A77AD9C1E26893E00B9ABF4 /* HJM4AFile.m */,
+			);
+			name = HJM4AFile;
+			sourceTree = "<group>";
+		};
+		4A77ADA41E26BCA200B9ABF4 /* HJM4AFileMetadata */ = {
+			isa = PBXGroup;
+			children = (
+				4A77AD9F1E26BC7900B9ABF4 /* HJM4AFileMetadata.h */,
+				4A77ADA01E26BC7900B9ABF4 /* HJM4AFileMetadata.m */,
+			);
+			name = HJM4AFileMetadata;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -120,6 +154,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A77AD8F1E26813200B9ABF4 /* main.m in Sources */,
+				4A77AD9D1E26893E00B9ABF4 /* HJM4AFile.m in Sources */,
+				4A77ADA11E26BC7900B9ABF4 /* HJM4AFileMetadata.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

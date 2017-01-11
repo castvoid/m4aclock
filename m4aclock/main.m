@@ -6,12 +6,90 @@
 //  Copyright © 2017 Harry Jones. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
+#import "HJM4AFile.h"
+
+void checkArgs(int argc, const char *argv[]) {
+    int returnCode = 0;
+    
+    if (argc < 2) {
+        returnCode = 1;
+        goto fail;
+    }
+    
+    if (strcmp("--help",argv[1]) == 0) {
+        goto fail;
+    }
+    
+    if (strcmp("-c",argv[1]) == 0 && argc < 3) {
+        returnCode = 1;
+        goto fail;
+    }
+    
+    return;
+    
+fail:
+    printf("m4aclock 0.1 - Update M4A purchase time to now\n");
+    printf("USAGE: [-c] <input list>\n");
+    printf("OPTIONS:\n");
+    printf("  -c\t\tRemove purchaser information\n");
+    exit(returnCode);
+}
+
+NSError *removeFile(NSURL *fileURL) {
+    NSString *filePath = [fileURL path];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if ([fileManager fileExistsAtPath:filePath]) {
+        NSError *error;
+        [fileManager removeItemAtPath:filePath error:&error];
+        return error;
+    }
+    return nil;
+}
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        // insert code here...
-        NSLog(@"Hello, World!");
+        checkArgs(argc, argv);
+        
+        int start = 1;
+        bool clean_purchaser = false;
+        
+        if (strcmp("-c",argv[1]) == 0) {
+            start = 2;
+            clean_purchaser = true;
+        }
+        
+        int count = argc - start;
+        
+        for (int i = start; i < argc; i++) {
+            NSString *path = [[NSString stringWithUTF8String:argv[i]] stringByExpandingTildeInPath];
+            NSURL *url = [NSURL fileURLWithPath:path];
+            HJM4AFile *file = [[HJM4AFile alloc] initFromURL:url];
+            
+            printf("Updating %d/%d – '%s'...", 1+i-start, count, file.data.name.UTF8String);
+            file.data.purchaseDate = [NSDate date];
+            if (clean_purchaser) {
+                file.data.iTunesWWW = nil;
+                file.data.AppleID = nil;
+                file.data.purchasedBy = nil;
+                file.data.copyright = nil;
+                file.data.comment = nil;
+            }
+            NSError *err;
+            if (!err) err = removeFile(url);
+            if (!err) err = [file saveChangesToURL:url];
+            
+            if (!err) {
+                printf(" OK\n");
+            } else {
+                printf(" Failed!\n");
+                fprintf(stderr, "Couldn't save to %s.\n", url.relativePath.UTF8String);
+                fprintf(stderr, "Got error: %s\n", err.description.UTF8String);
+                fprintf(stderr, "Exiting...\n");
+                exit(1);
+            }
+        }
+        printf("Done.\n");
     }
     return 0;
 }
