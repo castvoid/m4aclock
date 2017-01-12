@@ -51,7 +51,7 @@
 @property NSString *name;
 @property NSString *sortOrder;
 @property NSDate *year;
-@property NSString *purchasedBy;
+@property (readonly) NSString *purchasedBy;
 @property NSString *AppleID;
 @property NSString *iTunesWWW;
 
