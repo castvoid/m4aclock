@@ -36,17 +36,6 @@ fail:
     exit(returnCode);
 }
 
-NSError *removeFile(NSURL *fileURL) {
-    NSString *filePath = [fileURL path];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    if ([fileManager fileExistsAtPath:filePath]) {
-        NSError *error;
-        [fileManager removeItemAtPath:filePath error:&error];
-        return error;
-    }
-    return nil;
-}
-
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         checkArgs(argc, argv);
@@ -64,19 +53,25 @@ int main(int argc, const char * argv[]) {
         for (int i = start; i < argc; i++) {
             NSString *path = [[NSString stringWithUTF8String:argv[i]] stringByExpandingTildeInPath];
             NSURL *url = [NSURL fileURLWithPath:path];
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            if (![fileManager fileExistsAtPath:path]) {
+                fprintf(stderr, "No file found at %s. Exiting...\n", path.UTF8String);
+                exit(1);
+            }
             HJM4AFile *file = [[HJM4AFile alloc] initFromURL:url];
             
             printf("Updating %d/%d – '%s'...", 1+i-start, count, file.data.name.UTF8String);
+            
             file.data.purchaseDate = [NSDate date];
             if (clean_purchaser) {
                 file.data.iTunesWWW = nil;
                 file.data.AppleID = nil;
-                file.data.purchasedBy = nil;
                 file.data.copyright = nil;
                 file.data.comment = nil;
             }
+            
             NSError *err;
-            if (!err) err = removeFile(url);
+            if (!err) [fileManager removeItemAtPath:path error:&err];
             if (!err) err = [file saveChangesToURL:url];
             
             if (!err) {
