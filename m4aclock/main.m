@@ -60,14 +60,14 @@ int main(int argc, const char * argv[]) {
             }
             HJM4AFile *file = [[HJM4AFile alloc] initFromURL:url];
             
-            printf("Updating %d/%d – '%s'...", 1+i-start, count, file.data.name.UTF8String);
+            printf("Updating %d/%d – '%s'...", 1+i-start, count, file.metadata.name.UTF8String);
             
-            file.data.purchaseDate = [NSDate date];
+            file.metadata.purchaseDate = [NSDate date];
             if (clean_purchaser) {
-                file.data.iTunesWWW = nil;
-                file.data.AppleID = nil;
-                file.data.copyright = nil;
-                file.data.comment = nil;
+                file.metadata.iTunesWWW = nil;
+                file.metadata.AppleID = nil;
+                file.metadata.copyright = nil;
+                file.metadata.comment = nil;
             }
             
             NSError *err;
