@@ -58,9 +58,25 @@ int main(int argc, const char * argv[]) {
                 fprintf(stderr, "No file found at %s. Exiting...\n", path.UTF8String);
                 exit(1);
             }
-            HJM4AFile *file = [[HJM4AFile alloc] initFromURL:url];
             
-            printf("Updating %d/%d – '%s'...", 1+i-start, count, file.metadata.name.UTF8String);
+            NSError *error = nil;
+            HJM4AFile *file = [[HJM4AFile alloc] initFromURL:url error: &error];
+            if (error != nil) {
+                const char *description;
+                if ([error.domain isEqualToString:@"HJM4AErrorDomain"]) {
+                    description = ((NSString*)error.userInfo[NSLocalizedFailureReasonErrorKey]).UTF8String;
+                } else {
+                    description = error.description.UTF8String;
+                }
+                printf("Skipping %d/%d - '%s': %s\n",
+                       i-start + 1,
+                       count,
+                       url.lastPathComponent.UTF8String,
+                       description);
+                continue;
+            }
+            
+            printf("Updating %d/%d – '%s'...", i-start + 1, count, file.metadata.name.UTF8String);
             
             file.metadata.purchaseDate = [NSDate date];
             if (clean_purchaser) {
@@ -70,9 +86,13 @@ int main(int argc, const char * argv[]) {
                 file.metadata.comment = nil;
             }
             
+            NSString *tempPath = [NSString stringWithFormat:@"%@.orig", path];
             NSError *err;
-            if (!err) [fileManager removeItemAtPath:path error:&err];
+            if (!err) [fileManager moveItemAtPath:path
+                                           toPath:tempPath
+                                            error:&err];
             if (!err) err = [file saveChangesToURL:url];
+            if (!err) [fileManager removeItemAtPath:tempPath error:&err];
             
             if (!err) {
                 printf(" OK\n");

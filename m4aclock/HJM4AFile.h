@@ -12,7 +12,8 @@
 #import "HJM4AFileMetadata.h"
 @interface HJM4AFile : NSObject
 
-- (id)initFromURL:(NSURL*)url;
+- (id)init __attribute__((unavailable("You must call initFromURL:error:")));
+- (id)initFromURL:(NSURL*)url error:(NSError**)errorPtr;
 - (NSError*)saveChanges;
 - (NSError*)saveChangesToURL:(NSURL*)outFile;
 

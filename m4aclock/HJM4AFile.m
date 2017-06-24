@@ -25,19 +25,30 @@
 
 @implementation HJM4AFile
 
-- (id)init __attribute__((unavailable("You must call initFromURL:"))) {
+- (id)init {
     self = nil;
     return self;
 }
 
-- (id)initFromURL:(NSURL*)url {
+- (id)initFromURL:(NSURL*)url error:(NSError**)errorPtr {
     self = [super init];
     if (self) {
         _url = url;
         _asset = [AVURLAsset URLAssetWithURL:self.url
                                          options:nil];
+        
+        if (!_asset.readable) {
+            *errorPtr = [NSError errorWithDomain:@"HJM4AErrorDomain"
+                                            code:2
+                                        userInfo:@{
+                                                   NSLocalizedFailureReasonErrorKey: @"Not a valid m4a file",
+                                                   NSLocalizedDescriptionKey: @"Couldn't read file"
+                                                   }];
+        }
+        
         _metaDict = generateMetadataDictionary(_asset);
         _metadata = [[HJM4AFileMetadata alloc] initWithMetadataSource:self];
+        
     }
     
     return self;
