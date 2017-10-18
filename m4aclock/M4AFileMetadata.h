@@ -1,5 +1,5 @@
 //
-//  HJM4AFileMetadata.h
+//  M4AFileMetadata.h
 //  m4aclock
 //
 //  Created by Harry Jones on 11/01/2017.
@@ -8,15 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol HJM4AFileMetadataSource
+@protocol M4AFileMetadataSource
 - (NSObject*)getMetadataValueForKey:(NSString*)key;
 - (void)setMetadataValue:(NSObject*)value forKey:(NSString*)key;
 @end
 
 
-@interface HJM4AFileMetadata : NSObject
+@interface M4AFileMetadata : NSObject
 
-- (id)initWithMetadataSource:(id<HJM4AFileMetadataSource>)dataSource;
+- (id)initWithMetadataSource:(id<M4AFileMetadataSource>)dataSource;
 
 @property NSString *album;
 @property NSString *albumSortOrder;

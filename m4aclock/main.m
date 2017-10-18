@@ -7,7 +7,7 @@
 //
 
 #import <AVFoundation/AVFoundation.h>
-#import "HJM4AFile.h"
+#import "M4AFile.h"
 
 void checkArgs(int argc, const char *argv[]) {
     int returnCode = 0;
@@ -60,7 +60,7 @@ int main(int argc, const char * argv[]) {
             }
             
             NSError *error = nil;
-            HJM4AFile *file = [[HJM4AFile alloc] initFromURL:url error: &error];
+            M4AFile *file = [[M4AFile alloc] initFromURL:url error: &error];
             if (error != nil) {
                 const char *description;
                 if ([error.domain isEqualToString:@"HJM4AErrorDomain"]) {

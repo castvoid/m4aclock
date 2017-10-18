@@ -1,23 +1,23 @@
 //
-//  HJM4AFileMetadata.m
+//  M4AFileMetadata.m
 //  m4aclock
 //
 //  Created by Harry Jones on 11/01/2017.
 //  Copyright © 2017 Harry Jones. All rights reserved.
 //
 
-#import "HJM4AFileMetadata.h"
+#import "M4AFileMetadata.h"
 #import <objc/runtime.h>
 
-@interface HJM4AFileMetadata ()
+@interface M4AFileMetadata ()
 
-@property id<HJM4AFileMetadataSource>dataSource;
+@property id<M4AFileMetadataSource>dataSource;
 
 @end
 
-@implementation HJM4AFileMetadata
+@implementation M4AFileMetadata
 
-- (id)initWithMetadataSource:(id<HJM4AFileMetadataSource>)dataSource {
+- (id)initWithMetadataSource:(id<M4AFileMetadataSource>)dataSource {
     self = [super init];
     if (self) {
         self.dataSource = dataSource;
@@ -98,7 +98,7 @@ void setupProperties(Class class) {
     }
 }
 
-Class getClassForPropertyName(HJM4AFileMetadata* self, NSString *name) {
+Class getClassForPropertyName(M4AFileMetadata* self, NSString *name) {
     objc_property_t property = class_getProperty(self.class, name.UTF8String);
     const char *propertyAttrs = property_getAttributes(property);
     
@@ -117,7 +117,7 @@ Class getClassForPropertyName(HJM4AFileMetadata* self, NSString *name) {
     return NSClassFromString(string);
 }
 
-NSObject *swizzleGetter(HJM4AFileMetadata* self, SEL _cmd) {
+NSObject *swizzleGetter(M4AFileMetadata* self, SEL _cmd) {
     NSString *keyname = NSStringFromSelector(_cmd);
     NSString *key = keys[keyname];
     
@@ -137,7 +137,7 @@ NSObject *swizzleGetter(HJM4AFileMetadata* self, SEL _cmd) {
     return ret;
 }
 
-void swizzleSetter(HJM4AFileMetadata* self, SEL _cmd, NSObject *value) {
+void swizzleSetter(M4AFileMetadata* self, SEL _cmd, NSObject *value) {
     NSString *selector = NSStringFromSelector(_cmd);
     // note: first char of this is capitalised. most (but not all) are lowercase!
     

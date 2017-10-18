@@ -1,20 +1,20 @@
 //
-//  HJM4AFile.m
+//  M4AFile.m
 //  m4aclock
 //
 //  Created by Harry Jones on 11/01/2017.
 //  Copyright © 2017 Harry Jones. All rights reserved.
 //
 
-// This object acts as a source for the HJM4AFileMetadata, and has a
-// HJM4AFileMetadata. The metadata for the file can be changed via its .metadata
+// This object acts as a source for the M4AFileMetadata, and has a
+// M4AFileMetadata. The metadata for the file can be changed via its .metadata
 // property
 
 #import <AVFoundation/AVFoundation.h>
 #import <dispatch/dispatch.h>
-#import "HJM4AFile.h"
+#import "M4AFile.h"
 
-@interface HJM4AFile () <HJM4AFileMetadataSource>
+@interface M4AFile () <M4AFileMetadataSource>
 
 // The m4a file's metadata. Updated when we update .metadata
 @property NSMutableDictionary *metaDict;
@@ -23,7 +23,7 @@
 
 @end
 
-@implementation HJM4AFile
+@implementation M4AFile
 
 - (id)init {
     self = nil;
@@ -47,7 +47,7 @@
         }
         
         _metaDict = generateMetadataDictionary(_asset);
-        _metadata = [[HJM4AFileMetadata alloc] initWithMetadataSource:self];
+        _metadata = [[M4AFileMetadata alloc] initWithMetadataSource:self];
         
     }
     
